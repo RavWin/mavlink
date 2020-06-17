@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<mavlink>
+  <!-- MAVLink standard messages -->
+  <include>common.xml</include>
+  <dialect>0</dialect>
+  <!-- use common.xml enums -->
+  <enums/>
+  <!-- use common.xml messages -->
+  <messages>
+    <message id="180" name="FCUVS_DATA_V1">
+        <description>FCUVS Payload data</description>
+        <field type="uint8_t" name="target_system">System ID</field>
+        <field type="uint8_t" name="target_component">Component ID</field>
+        <field type="uint8_t[64]" name="data">Payload</field>
+    </message>
+    <message id="30000" name="FCUVS_DATA_V2">
+        <description>FCUVS Payload data</description>
+        <field type="uint8_t" name="target_system">System ID</field>
+        <field type="uint8_t" name="target_component">Component ID</field>
+        <field type="uint8_t[64]" name="data">Payload</field>
+    </message>
+  </messages>
+</mavlink>

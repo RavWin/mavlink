@@ -1,0 +1,911 @@
+<?xml version='1.0'?>
+<mavlink>
+	<include>common.xml</include>
+
+	
+	<enums>
+		<!-- aerob specific MAV_CMD_* commands -->
+		<enum name="MAV_CMD">
+			<entry name="MAV_CMD_AEROB_DO_CHANDELLE" value="3100">
+				<description>Mission command to perform an aircraft control maneuver where the pilot combines a 180 degrees turn with a climb</description>
+				<param index="1">Empty</param>
+				<param index="2">Empty</param>
+				<param index="3">Empty</param>
+				<param index="4">Empty</param>			
+				<param index="5">Latitude</param>
+				<param index="6">Longitude</param>
+				<param index="7">Altitude</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_FUEL" value="3101">
+				<description>Set preflight fuel value</description>
+				<param index="1">Fuel value (litres)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_ROLL" value="3102">
+				<description>Set desired roll</description>
+				<param index="1">Roll (degrees)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_ALTITUDE" value="3103">
+				<description>Set desired altitude</description>
+				<param index="1">Altitude (meters)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_PID_AUTOTUNE" value="3104">
+				<description>Execute PID autotune procedure</description>
+				<param index="1">Param</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SEARCH" value="3105">
+				<description>Issue a command "Search a target" to the payload</description>
+				<param index="1">Param</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_STABILIZE_MODE" value="3106">
+				<description>Set autopilot stabilize mode</description>
+				<param index="1">Empty</param>
+				<param index="2">Empty</param>
+				<param index="3">Stabilize Mode</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_TRIM_RC" value="3107">
+				<description>Set RC channels middle position</description>
+			</entry>
+			<entry name="MAV_CMD_AEROB_REFERENCE_WP" value="3108">
+				<description>Reference waypoint reached</description>
+				<param index="1">Reference point ID</param>
+				<param index="2">Empty</param>
+				<param index="3">Empty</param>
+				<param index="4">Empty</param>			
+				<param index="5">Latitude</param>
+				<param index="6">Longitude</param>
+				<param index="7">Altitude</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_ABORT_MANEUVER" value="3109">
+				<description>Abort last maneuver</description>
+				<param index="1">Empty</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_NAV_SOURCE" value="3110">
+				<description>Set navigation parameters source</description>
+				<param index="1">Source: 0=GPS, 1=RSLON</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_STEERING" value="3111">
+				<description>Issue a command "Steering" to the payload</description>
+				<param index="1">Param</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_PAYLOAD_SHOOTDONW" value="3112">
+				<description>Issue a command "Shootdown" to the payload</description>
+				<param index="1">Param</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_RESET_FAILURES" value="3113">
+				<description>Reset failures flags</description>
+			</entry>
+			<entry name="MAV_CMD_AEROB_ZONE_EXIT" value="3114">
+				<description>Exit point zone of interest. Parameters same as in MAV_CMD_NAV_WAYPOINT</description>
+				<param index="1">Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)</param>
+				<param index="2">Acceptance radius in meters (if the sphere with this radius is hit, the MISSION counts as reached)</param>
+				<param index="3">0 to pass through the WP, if > 0 radius in meters to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.</param>
+				<param index="4">Desired yaw angle at MISSION (rotary wing)</param>
+				<param index="5">Latitude</param>
+				<param index="6">Longitude</param>
+				<param index="7">Altitude</param>
+			</entry>			
+			<entry name="MAV_CMD_AEROB_PAYLOAD_ARB_ON" value="3115"><description>Turn on ARB</description></entry>
+			<entry name="MAV_CMD_AEROB_PAYLOAD_ARB_OFF" value="3116"><description>Turn off ARB</description></entry>
+			<entry name="MAV_CMD_AEROB_PAYLOAD_START_SHOOTING" value="3117">
+				<description>Start shooting</description>
+				<param index="1">CHPI [Hz 500-10000]</param>
+				<param index="2">Otrez [meters 0-5000]</param>
+				<param index="3">reserv 0</param>
+				<param index="4">reserv 1</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_PAYLOAD_STOP_SHOOTING" value="3118"><description>Stop shooting</description></entry>
+			<entry name="MAV_CMD_AEROB_PAYLOAD_SET_PARAM_0" value="3119"><description>Set parameters_0 to payload</description></entry>
+			<entry name="MAV_CMD_AEROB_PAYLOAD_SET_PARAM_1" value="3120"><description>Set parameters_1 to payload</description></entry>
+			<entry name="MAV_CMD_AEROB_SET_PITCH" value="3121">
+				<description>Set desired pitch</description>
+				<param index="1">Pitch (degrees)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_RUDER" value="3122">
+				<description>Set ruder position</description>
+				<param index="1">Ruder position (-1..+1)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_AIRBRAKE" value="3123">
+				<description>Set airbrake position</description>
+				<param index="1">Airbrake position (0..+1)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_ANTENNA_TRACKER_PID" value="3124">
+				<description>Set antenna tracker PID parameters</description>
+				<param index="1">PID P parameters. -1: ignore</param>
+				<param index="2">Measured angle offset. [0..359], -1: ignore</param>
+				<param index="3">Motor soft start [% per second], -1: ignore</param>
+				<param index="4">Actuator cut-off. [0..100], -1: ignore</param>
+				<param index="5">10: Calibrate magnetometer. Other: ignore</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_ANTENNA_TRACKER_CONTROL" value="3125">
+				<description>Antenna tracker control</description>
+				<param index="1">Tracking system ID. -1: ignore</param>
+				<param index="2">Set antenna azimuth (0..359 degrees). -1: ignore</param>
+				<param index="3">Set antenna elevation (0..90 degrees). -1: ignore</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_PAYLOAD_POWER_ON" value="3126">
+				<description>Issue a command "Power On" to the payload</description>
+			</entry>
+			<entry name="MAV_CMD_AEROB_FLIGHT_ZONE" value="3127">
+				<description>Set points is determined by flight zone</description>
+				<param index="1">Zone ID</param>
+				<param index="2">Zone Type. 0=Polygon, 1=Polyline, >=2 Circle (diameter meters)</param>
+				<param index="3">Zone Category. Flight zone, Restricted area, Dangerous area...</param>
+				<param index="4">Altitude Min</param>
+				<param index="5">Latitude</param>
+				<param index="6">Longitude</param>
+				<param index="7">Altitude Max</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_GENERATOR_ON" value="3128">
+				<description>Issue a command "Power On" to the payload</description>
+				<param index="1">1: on, 0: off</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_AUX_PWR_ON" value="3129">
+				<description>Issue a command "Power On" to the auxiliary power supply</description>
+				<param index="1">1: on, 0: off</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_ACTUATOR" value="3131">
+				<description>Set autopilot output (actuator)</description>
+				<param index="1">Actuator 1 number [0..32]. -1: ignore</param>
+				<param index="2">Actuator 1 value. [-1..1]</param>
+				<param index="3">Actuator 2 number [0..32]. -1: ignore</param>
+				<param index="4">Actuator 2 value. [-1..1]</param>
+				<param index="5">Actuator 3 number [0..32]. -1: ignore</param>
+				<param index="6">Actuator 3 value. [-1..1]</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_PARACHUTE_RELEASE" value="3132">
+				<description>Issue a command to release a parachute</description>
+				<param index="1">(0=normal, 1=release)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_RESET_WIND" value="3133">
+				<description>Issue a command to reset wind data</description>
+				<param index="1">(1=reset)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_AIRBAG" value="3134">
+				<description>Issue a command to open airbag</description>
+				<param index="1">(0=normal, 1=open)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_CATAPULT" value="3135">
+				<description>Catapult Command Launch/Lock/Arm/Disarm</description>
+				<param index="1">Command (1=Disarm, 2=Arm, 3=Lock, 4=Launch)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_POSHOLD" value="3136">
+				<description>Freeze</description>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_YAW" value="3137">
+				<description>Set desired Yaw</description>
+				<param index="1">Disired Yaw (0..360 Degrees)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_SET_VSPEED" value="3138">
+				<description>Set desired vertical speed</description>
+				<param index="1">Vertical speed (meter per second)</param>
+			</entry>
+			<entry name="MAV_CMD_AEROB_PARACHUTE_DEPLOY" value="3139">
+				<description>Point of precision landing parachute deploy</description>
+			</entry>			
+			<entry name="MAV_CMD_AEROB_TURBINE_CMD" value="3140">
+				<description>Turbine comman</description>
+				<param index="1">Command</param>
+				<param index="2">Turbine ID (0..7)</param>
+				<param index="3">Parametr (thrust 0..100%)</param>
+			</entry>			
+
+		</enum>
+		
+		<!--  Flight zone category enums -->
+		<enum name="FLIGHT_ZONE_CATEGORY_T">
+            <entry name="FLIGHT_ZONE_CATEGORY_ALLOWED" value="0"><description>Dedicated flight area.</description></entry>
+            <entry name="FLIGHT_ZONE_CATEGORY_EXCLUSION"><description>No fly area.</description></entry>
+            <entry name="FLIGHT_ZONE_CATEGORY_OBSTACLE"><description>Can't fly area.</description></entry>
+		</enum>
+
+	  	<!--  System state Enums -->
+		<enum name="SYSTEM_STATE_T">
+            <entry name="SYSTEM_STATE_UNINIT" value="0"><description>Uninitialized system, state is unknown.</description></entry>
+            <entry name="SYSTEM_STATE_BOOT"><description>System is booting up.</description></entry>
+            <entry name="SYSTEM_STATE_CALIBRATING"><description>System is calibrating and not flight-ready.</description></entry>
+            <entry name="SYSTEM_STATE_SERVO_TEST"><description>System is testing servo.</description></entry>
+            <entry name="SYSTEM_STATE_IMU_TEST"><description>System is testing IMU.</description></entry>
+            <entry name="SYSTEM_STATE_STANDBY"><description>System is grounded and on standby. It can be launched any time.</description></entry>
+            <entry name="SYSTEM_STATE_ACTIVE"><description>System is active and might be already airborne. Motors are engaged.</description></entry>
+
+            <entry name="SYSTEM_STATE_RUN"><description>System is running on runway</description></entry>
+            <entry name="SYSTEM_STATE_RUN2"><description>System is running on runway</description></entry>
+            <entry name="SYSTEM_STATE_RUN3"><description>System is running on runway</description></entry>
+
+            <entry name="SYSTEM_STATE_TAKEOFF"><description>System is takeoff</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_CLIMB"><description>System in climb</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_MISSION"><description>System play a mission</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_CIRCLE"><description>System flies in a circle</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_CHANDELLE"><description>System performs chandelle</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_STEERING"><description>System performs steering</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE1"><description>System flight future mode 1</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE2"><description>System flight future mode 2</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE3"><description>System flight future mode 3</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE4"><description>System flight future mode 4</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE5"><description>System flight future mode 5</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE6"><description>System flight future mode 6</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE7"><description>System flight future mode 7</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE8"><description>System flight future mode 8</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE9"><description>System flight future mode 9</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_FUTURE10"><description>System flight future mode 10</description></entry>
+			
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_ROLL"><description>System flight in guided roll mode</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_CIRCLE"><description>System flight in guided circle</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_COURSE"><description>System flight in guided course</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_POSHOLD"><description>System flight in guided future mode 1</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE2"><description>System flight in guided future mode 2</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE3"><description>System flight in guided future mode 3</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE4"><description>System flight in guided future mode 4</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE5"><description>System flight in guided future mode 5</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE6"><description>System flight in guided future mode 6</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE7"><description>System flight in guided future mode 7</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE8"><description>System flight in guided future mode 8</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE9"><description>System flight in guided future mode 9</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_GUIDED_FUTURE10"><description>System flight in guided future mode 10</description></entry>
+
+            <entry name="SYSTEM_STATE_FLIGHT_LANDING"><description>System performs landing</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_LANDING2"><description>System performs landing</description></entry>
+            <entry name="SYSTEM_STATE_FLIGHT_LANDING3"><description>System performs landing</description></entry>
+
+            <entry name="SYSTEM_STATE_CRITICAL"><description>System is in a non-normal flight mode. It can however still navigate.</description></entry>
+            <entry name="SYSTEM_STATE_EMERGENCY"><description>System is in a non-normal flight mode. It lost control over parts or over the whole airframe. It is in mayday and going down.</description></entry>
+            <entry name="SYSTEM_STATE_POWEROFF"><description>System just initialized its power-down sequence, will shut down now.</description></entry>
+        </enum>
+		
+		<enum name="MAV_MODE_FLAG">
+			<description>These flags encode the MAV mode.</description>
+			<entry value="32768" name="MAV_MODE_FLAG_NAV_RSLON"><description>Navigate on radar</description></entry>
+			<entry value="16384" name="MAV_MODE_FLAG_PARACHUTE_RELEASE"><description>Parachute release flag</description></entry>			
+			<entry value="8192" name="MAV_MODE_FLAG_AIRBAG"><description>Airbag deploy flag</description></entry>
+			<entry value="4096" name="MAV_MODE_FLAG_PARACHUTE"><description>Parachute opened flag</description></entry>
+			<entry value="2048" name="MAV_MODE_FLAG_LAUNCH"><description>System launched flag</description></entry>
+			<entry value="1024" name="MAV_MODE_FLAG_LANDING"><description>System landing flag</description></entry>
+			<entry value="512" name="MAV_MODE_FLAG_DUALRATE"><description>Radio control dual rate flag</description></entry>
+        </enum>
+		
+		<enum name="MAV_AIRFRAME_TYPE">
+			<entry value="1" name="AIRFRAME_AEROB4D"><description>Aerob4D planer</description></entry>
+			<entry value="2" name="AIRFRAME_AEROB_PN2"><description>Pinguin planer</description></entry>
+			<entry value="3" name="AIRFRAME_AEROB_CP1"><description>Convertoplan</description></entry>
+			<entry value="4" name="AIRFRAME_SKYWALKER_X8"><description>Skywalker X8 flying wing</description></entry>
+			<entry value="5" name="AIRFRAME_AEROB4D_HIL"><description>Aerob4D in simulator</description></entry>			
+			<entry value="7" name="AIRFRAME_AEROB_CP_HIL"><description>Aerob convertoplan in simulator</description></entry>			
+			<entry value="8" name="AIRFRAME_HELI"><description>Generic helicopter</description></entry>	
+			<entry value="9" name="AIRFRAME_HELI_HIL"><description>Generic helicopter in simulator</description></entry>	
+			<entry value="10" name="AIRFRAME_MULTYROTOR"><description>Generic multyrotor UAV</description></entry>	
+			<entry value="11" name="AIRFRAME_MULTYROTOR_HIL"><description>Generic multyrotor UAV in simulator</description></entry>	
+			<entry value="12" name="AIRFRAME_JETBIKE"><description>Generic Jetbike UAV</description></entry>	
+			<entry value="13" name="AIRFRAME_JETBIKE_HIL"><description>Generic Jetbike UAV in simulator</description></entry>	
+
+		</enum>			
+						
+		<enum name="MAV_COMPONENT">
+            <entry value="10" name="MAV_COMP_ID_ANTENNA_TRACKER"><description>Automatic antenna tracker</description></entry>
+			<entry value="123" name="MAV_COMP_ID_RSLON"><description/></entry>
+			<entry value="124" name="MAV_COMP_ID_FINDER"><description/></entry>
+			<entry value="125" name="MAV_COMP_ID_CATAPUTL"><description/></entry>
+			<entry value="126" name="MAV_COMP_ID_CATAPUTL_TENSIONER"><description/></entry>
+		</enum>			
+	
+		<!--  SHORT_MESSAGE valid flag bits decoder -->
+		<enum name="SHORT_MESSAGE_VALID_FLAGS">
+            <entry name="SHORT_MESSAGE_VALID_IMU" value="1"><description>Roll, Pitch, Yaw is valid</description></entry>
+			<entry name="SHORT_MESSAGE_NAV_GPS" value="2"><description>Latitude, Longitude, TrackAngle from GPS</description></entry>
+			<entry name="SHORT_MESSAGE_NAV_IRU" value="4"><description>Latitude, Longitude, TrackAngle from inertial reference unit</description></entry>
+			<entry name="SHORT_MESSAGE_VALID_NAV" value="6"><description>Latitude, Longitude, TrackAngle valid mask</description></entry>
+			<entry name="SHORT_MESSAGE_VALID_ASI" value="8"><description>AirSpeed is valid</description></entry>
+			<entry name="SHORT_MESSAGE_ALT_BARO" value="16"><description>Altitude, Climb from baro</description></entry>
+			<entry name="SHORT_MESSAGE_ALT_ALTIMETR" value="32"><description>Altitude, Climb from laser/radio altimetr</description></entry>
+			<entry name="SHORT_MESSAGE_VALID_ALT" value="48"><description>Altitude, Climb valid mask</description></entry>
+		</enum>
+		
+		<!--  MAVLINK library version -->
+		<enum name="MAVLINK_LIBRARY_VERSION_ENUM">
+            <entry name="MAVLINK_LIBRARY_VERSION" value="44"><description>Mavlink library version</description></entry>
+		</enum>
+	</enums>
+	
+    <messages>
+		<!-- MESSAGE IDs 180 - 229: Space for custom messages in individual projectname_messages.xml files -->
+		<!-- AEROB MESSAGE EXTENTION -->
+<!--
+        <message id="150" name="ENGINE_STATUS">
+            <description>Engine parameters</description>
+            <field type="uint8_t" name="engine_number">Engine Number, start from 1</field>
+            <field type="uint16_t" name="rpm">Engine RMP</field>
+            <field type="float" name="fuel_pressure">Fuel pressure, mbar</field>
+            <field type="float" name="ambient_temp">Ambient temperatur, degrees celsius</field>
+            <field type="float" name="exhaust_temp">Exhaust temperatur, degrees celsius</field>
+            <field type="float" name="air_pressure">Air pressure, mbar</field>
+		</message>
+
+		<message id="151" name="STABILIZE_DESIRED">
+			<description>Desired stabilize parameters</description>
+			<field type="uint32_t" name="stabilize_flag">Stabilize flags bitmask. ROLL = 1, PITCH = 2, YAW = 4, COURSE = 8, ALTITUDE	= 16, VSPEED 32, SPEED = 64, LEVEL = 128</field>
+			<field type="float" name="roll">Desired Roll, degrees</field>
+			<field type="float" name="pitch">Desired Pitch, degrees</field>
+			<field type="float" name="course">Desired Course, degrees</field>
+			<field type="float" name="altitude">Desired altitude, meters</field>
+			<field type="float" name="vpeed">Desired vertical speed, meters per seconds</field>
+			<field type="float" name="speed">Desired horizontal speed, meters per seconds</field>
+			<field type="float" name="rate_rool">Desired Roll Rate, degrees per seconds</field>
+			<field type="float" name="rate_pitch">Desired Pitch Rate, degrees per seconds</field>
+			<field type="float" name="rate_yaw">Desired Yaw Rate, degrees per seconds</field>
+		</message>
+		  
+		<message id="152" name="UAV_PAYLOAD_SET">
+			<description>Set UAV payload parameters</description>
+			<field type="float" name="cam_pan">Set camera desired angle in a horizontal plane, degrees</field>
+			<field type="float" name="cam_tilt">Set camera desired angle in a vertical plane, degrees</field>
+			<field type="float" name="cam_zoom">Set camera desired zoom</field>
+			<field type="float" name="photo_interval">Set photo frames interval, seconds</field>
+		</message>
+
+		<message id="153" name="UAV_PAYLOAD">
+			<description>Get UAV payload parameters</description>
+			<field type="float" name="cam_pan">Camera angle in a horizontal plane, degrees</field>
+			<field type="float" name="cam_tilt">Camera angle in a vertical plane, degrees</field>
+			<field type="float" name="cam_zoom">Camera current zoom</field>
+			<field type="float" name="photo_interval">Photo interval, seconds</field>
+			<field type="uint32_t" name="photo_frame">Photo frame number</field>
+		</message>
+
+		<message id="154" name="SYSTEM_CRITICAL">
+			<description>UAV system critical parameters</description>
+			<field type="float" name="min_speed">Stall speed, meters per seconds</field>
+			<field type="float" name="max_speed">Maximum speed, meters per seconds</field>
+			<field type="float" name="min_altitude">Minimum altitude, meters</field>
+			<field type="float" name="max_altitude">Maximum altitude, meters</field>
+			<field type="float" name="max_roll">Maximum roll, degrees</field>
+			<field type="float" name="max_pitch">Maximum pitch, degrees</field>
+			<field type="float" name="max_accel_x">Maximum acceleration relative to aircraft axis, in north/south direction , meter per second squared</field>
+			<field type="float" name="max_accel_y">Maximum acceleration relative to aircraft axis, in east/west direction , meter per second squared</field>
+			<field type="float" name="max_accel_z">Maximum acceleration relative to aircraft axis, in vertical direction , meter per second squared</field>
+			<field type="float" name="max_rate_x">Maximum rotation, degrees per seconds</field>
+			<field type="float" name="max_rate_y">Maximum rotation, degrees per seconds</field>
+			<field type="float" name="max_rate_z">Maximum rotation, degrees per seconds</field>
+		</message>
+-->		  
+		<message id="159" name="AEROB_FAST_SENSOR">
+			<description>Aerob sensor telemetry packet (hight speed)</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="float" name="xacc">X acceleration (m/s2)</field>
+			<field type="float" name="yacc">Y acceleration (m/s2)</field>
+			<field type="float" name="zacc">Z acceleration (m/s2)</field>
+			<field type="float" name="xgyro">Angular speed around X axis (rad/sec)</field>
+			<field type="float" name="ygyro">Angular speed around Y axis (rad/sec)</field>
+			<field type="float" name="zgyro">Angular speed around Z axis (rad/sec)</field>
+			<field type="float" name="xmag">X Magnetic field (milli tesla)</field>
+			<field type="float" name="ymag">Y Magnetic field (milli tesla)</field>
+			<field type="float" name="zmag">Z Magnetic field (milli tesla)</field>
+		</message>
+
+		<message id="160" name="AEROB_SLOW_SENSOR">
+			<description>Aerob sensor telemetry packet (low speed)</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="float" name="static_pressure">Static pressure (millibar)</field>
+			<field type="float" name="gps_altitude">GPS altitude above ground (meters)</field>
+			<field type="uint16_t" name="gps_speed">GPS ground speed (cm/s)</field>
+			<field type="uint8_t" name="gps_sat">GPS sat number / fix</field>
+			<field type="uint8_t" name="gps_vdop">GPS VDOP</field>
+			<field type="uint8_t" name="gps_hdop">GPS HDOP</field>				
+			<field type="uint16_t" name="generator_voltage">Generator voltage, in 0.01 volts (1 = 10 millivolt)</field>
+			<field type="uint16_t" name="current_pl">Payload current (milliampere)</field>
+			<field type="uint16_t" name="current_sys">System current (milliampere)</field>
+			<field type="uint16_t" name="bpuss_stat">BPUSS status register</field>
+			<field type="uint8_t" name="throttle">Current throttle setting in integer percent, 0 to 100</field>
+		</message>
+		  
+		<message id="161" name="AEROB_VERY_SLOW_SENSOR">
+			<description>Aerob sensor telemetry packet (very low speed)</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint16_t" name="bat1_voltage">Battery 1 voltage, (millivolt)</field>
+			<field type="uint16_t" name="bat2_voltage">Battery 2 voltage, (millivolt)</field>			
+			<field type="int8_t" name="temperature_alt">Alternator temperature (degrees Celsius)</field>			
+			<field type="int8_t" name="temperature_psu">Power supply unit temperature (degrees Celsius)</field>
+			<field type="int8_t" name="temperature_bpuss">BPUSS temperature (degrees Celsius)</field>
+			<field type="int8_t" name="temperature_pl">Payload temperature (degrees Celsius)</field>
+			<field type="int8_t" name="temperature_baro">Air temperature (degrees Celsius)</field>
+			<field type="int8_t" name="temperature_fcuav">FCUAV temperature (degrees Celsius)</field>
+			<field type="int8_t" name="temperature_aux1">Aux1 temperature (degrees Celsius)</field>
+			<field type="int8_t" name="temperature_aux2">Aux2 temperature (degrees Celsius)</field>
+		</message>
+
+		<message id="162" name="AEROB_HEARTBEAT">
+			<description>Aerob heartbeat packet (1 Hz)</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint64_t" name="rtc_time_ms">System RTC time in millisecond since Unix epoch</field>
+			<field type="uint64_t" name="failures">System failures register</field>
+			<field type="uint64_t" name="failures_trigger">System failures trigger register</field>		
+			<field type="uint16_t" name="packet_rx_1">Packets received at last second by channel RF1</field>
+			<field type="uint16_t" name="packet_tx_1">Packets sent at last second by channel RF1</field>
+			<field type="uint16_t" name="packet_rx_2">Packets received at last second by channel RF2</field>
+			<field type="uint16_t" name="packet_tx_2">Packets sent at last second by channel RF2</field>
+		</message>
+			
+		<message id="163" name="AEROB_STABILIZE_DESIRED">		  
+			<description>Desired stabilize parameters</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint32_t" name="stabilize_flag">Stabilize flags bitmask. ROLL = 1, PITCH = 2, YAW = 4, COURSE = 8, ALTITUDE	= 16, VSPEED 32, SPEED = 64, LEVEL = 128</field>
+			<field type="float" name="des_roll">Desired Roll, degrees</field>
+			<field type="float" name="des_pitch">Desired Pitch, degrees</field>
+			<field type="float" name="des_course">Desired Course, degrees</field>
+			<field type="float" name="des_altitude">Desired altitude, meters</field>
+			<field type="float" name="des_vpeed">Desired vertical speed, meters per seconds</field>
+			<field type="float" name="des_speed">Desired horizontal speed, meters per seconds</field>
+			<field type="float" name="des_rate_rool">Desired Roll Rate, degrees per seconds</field>
+			<field type="float" name="des_rate_pitch">Desired Pitch Rate, degrees per seconds</field>
+			<field type="float" name="des_rate_yaw">Desired Yaw Rate, degrees per seconds</field>
+		</message>
+		  
+		<message id="164" name="AEROB_RC_CHANNELS">
+			<description>The PPM values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification.</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint16_t" name="chan1_raw">RC channel 1 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan2_raw">RC channel 2 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan3_raw">RC channel 3 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan4_raw">RC channel 4 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan5_raw">RC channel 5 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan6_raw">RC channel 6 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan7_raw">RC channel 7 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan8_raw">RC channel 8 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan9_raw">RC channel 9 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan10_raw">RC channel 10 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan11_raw">RC channel 11 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan12_raw">RC channel 12 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan13_raw">RC channel 13 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan14_raw">RC channel 14 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan15_raw">RC channel 15 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan16_raw">RC channel 16 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan17_raw">RC channel 17 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+			<field type="uint16_t" name="chan18_raw">RC channel 18 value, in microseconds. A value of UINT16_MAX implies the channel is unused.</field>
+		</message>
+		  
+		<message id="165" name="AEROB_SERVO_OUTPUT">
+			<description>The RAW values of the servo outputs. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%.</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint16_t" name="servo1_raw">Servo output 1 value, in microseconds</field>
+			<field type="uint16_t" name="servo2_raw">Servo output 2 value, in microseconds</field>
+			<field type="uint16_t" name="servo3_raw">Servo output 3 value, in microseconds</field>
+			<field type="uint16_t" name="servo4_raw">Servo output 4 value, in microseconds</field>
+			<field type="uint16_t" name="servo5_raw">Servo output 5 value, in microseconds</field>
+			<field type="uint16_t" name="servo6_raw">Servo output 6 value, in microseconds</field>
+			<field type="uint16_t" name="servo7_raw">Servo output 7 value, in microseconds</field>
+			<field type="uint16_t" name="servo8_raw">Servo output 8 value, in microseconds</field>
+			<field type="uint16_t" name="servo9_raw">Servo output 9 value, in microseconds</field>
+			<field type="uint16_t" name="servo10_raw">Servo output 10 value, in microseconds</field>
+			<field type="uint16_t" name="servo11_raw">Servo output 11 value, in microseconds</field>
+			<field type="uint16_t" name="servo12_raw">Servo output 12 value, in microseconds</field>
+			<field type="uint16_t" name="servo13_raw">Servo output 13 value, in microseconds</field>
+			<field type="uint16_t" name="servo14_raw">Servo output 14 value, in microseconds</field>
+			<field type="uint16_t" name="servo15_raw">Servo output 15 value, in microseconds</field>
+			<field type="uint16_t" name="servo16_raw">Servo output 16 value, in microseconds</field>
+		</message>
+
+		<message id="166" name="AEROB_ACTUATOR_OUTPUT">
+			<description>Actuator outputs. Value normalize to -1..1</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="float" name="actuator1">ROLL</field>
+			<field type="float" name="actuator2">PITCH</field>
+			<field type="float" name="actuator3">YAW</field>
+			<field type="float" name="actuator4">THROTTLE/COLLECTIVE</field>
+			<field type="float" name="actuator5">RC_PIDRATE</field>
+			<field type="float" name="actuator6">RC_CONTEXT</field>
+			<field type="float" name="actuator7">RC_IGNITION</field>
+			<field type="float" name="actuator8">RC_APMODE</field>
+			<field type="float" name="actuator9">RC_GOVERNOR</field>
+			<field type="float" name="actuator10">RC_PARACHUTE</field>
+			<field type="float" name="actuator11">RC_RELEASE</field>
+			<field type="float" name="actuator12">RC_AUX8</field>
+			<field type="float" name="actuator13">RC_AUX9</field>
+			<field type="float" name="actuator14">RC_AUX10</field>
+			<field type="float" name="actuator15">RC_AUX11</field>
+			<field type="float" name="actuator16">RC_AUX12</field>
+			<field type="float" name="actuator17">RC_AUX13</field>
+			<field type="float" name="actuator18">RC_AUX14</field>
+			<field type="float" name="actuator19">PARACHUTE</field>
+			<field type="float" name="actuator20">KILLSWITCH</field>
+			<field type="float" name="actuator21">RELEASE</field>
+			<field type="float" name="actuator22">AIRBAG</field>
+			<field type="float" name="actuator23">HELI_THROTTLE</field>
+			<field type="float" name="actuator24">CONVERSE</field>
+			<field type="float" name="actuator25">ACTUATOR25</field>
+			<field type="float" name="actuator26">ACTUATOR26</field>
+			<field type="float" name="actuator27">ACTUATOR27</field>
+			<field type="float" name="actuator28">ACTUATOR28</field>
+			<field type="float" name="actuator29">ACTUATOR29</field>
+			<field type="float" name="actuator30">ACTUATOR30</field>
+			<field type="float" name="actuator31">ACTUATOR31</field>
+			<field type="float" name="actuator32">ACTUATOR32</field>
+		</message>
+
+		<message id="167" name="AEROB_COMMAND">
+			<description>Send a command with up to seven parameters to the MAV</description>
+			<field type="uint8_t" name="target_system">System which should execute the command</field>
+			<field type="uint8_t" name="target_component">Component which should execute the command, 0 for all components</field>
+			<field type="uint16_t" name="command">Command ID, as defined by MAV_CMD enum.</field>
+			<field type="uint32_t" name="command_uid">Unique command id</field>
+			<field type="float" name="param1">Parameter 1, as defined by MAV_CMD enum.</field>
+			<field type="float" name="param2">Parameter 2, as defined by MAV_CMD enum.</field>
+			<field type="float" name="param3">Parameter 3, as defined by MAV_CMD enum.</field>
+			<field type="float" name="param4">Parameter 4, as defined by MAV_CMD enum.</field>
+			<field type="float" name="param5">Parameter 5, as defined by MAV_CMD enum.</field>
+			<field type="float" name="param6">Parameter 6, as defined by MAV_CMD enum.</field>
+			<field type="float" name="param7">Parameter 7, as defined by MAV_CMD enum.</field>
+		</message>
+
+		<message id="168" name="AEROB_COMMAND_ACK">
+			<description>Report status of a command. Includes feedback wether the command was executed.</description>
+			<field type="uint8_t" name="target_system">System ID</field>
+			<field type="uint8_t" name="target_component">Component ID</field>
+			<field type="uint16_t" name="command">Command ID, as defined by MAV_CMD enum.</field>
+			<field type="uint32_t" name="command_uid">Unique command id</field>
+			<field type="uint8_t" name="result">See MAV_RESULT enum</field>
+		</message>
+		
+		<message id="169" name="AEROB_TERMINAL">
+			<description>Send/recipe a terminal data</description>
+			<field type="uint8_t" name="target_system">System which should recipe data</field>
+			<field type="uint8_t" name="target_component">Component which should recipe data</field>
+			<field type="uint8_t" name="packet_seq">Packet sequence number</field>
+			<field type="uint8_t" name="data_len">Payload data length</field>			
+			<field type="char[128]" name="data">Payload data</field>
+		</message>
+
+		<message id="170" name="AEROB_TERMINAL_ACK">
+			<description>Acknowledge terminal data reception</description>
+			<field type="uint8_t" name="target_system">System ID</field>
+			<field type="uint8_t" name="target_component">Component ID</field>
+			<field type="uint8_t" name="packet_seq">Packet sequence number</field>
+		</message>
+
+		<message id="171" name="AEROB_SYSTEM_STATUS">
+			<description>System component status</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint8_t" name="version_major">Component software major version</field>
+			<field type="uint8_t" name="version_minore">Component software minore version</field>
+			<field type="uint8_t" name="version_library">Component library version</field>
+			<field type="uint8_t" name="version_build">Component software build number</field>
+			<field type="uint8_t" name="airframe">System airframe type</field>
+			<field type="uint8_t" name="reserv">Reserve</field>
+		</message>
+		
+		<!-- Free ID zone -->
+		
+		<message id="180" name="AEROB_STABILIZE_DESIRED2">		  
+			<description>Desired stabilize parameters</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint16_t" name="stabilize_flag">Stabilize flags bitmask. ROLL = 1, PITCH = 2, YAW = 4, COURSE = 8, ALTITUDE = 16, VSPEED 32, SPEED = 64, POS = 128, GOV = 256, LALT = 512</field>
+			<field type="uint16_t" name="critical_flag">Critical flags bitmask. ROLL = 1, PITCH = 2, YAW = 4, COURSE = 8, ALTITUDE	= 16, VSPEED 32, SPEED = 64, POS = 128, GOV = 256, LALT = 512</field>
+			<field type="float" name="des_roll">Desired Roll, degrees</field>
+			<field type="float" name="des_pitch">Desired Pitch, degrees</field>
+			<field type="float" name="des_yaw">Desired Pitch, degrees</field>
+			<field type="float" name="des_course">Desired Course, degrees</field>
+			<field type="float" name="des_altitude">Desired altitude, meters</field>
+			<field type="float" name="des_vpeed">Desired vertical speed, meters per seconds</field>
+			<field type="float" name="des_speed">Desired horizontal speed, meters per seconds</field>
+			<field type="float" name="des_rate_rool">Desired Roll Rate, degrees per seconds</field>
+			<field type="float" name="des_rate_pitch">Desired Pitch Rate, degrees per seconds</field>
+			<field type="float" name="des_rate_yaw">Desired Yaw Rate, degrees per seconds</field>
+			<field type="float" name="des_rotor_rpm">Desired Rotor RPM, RPM</field>
+		</message>
+
+		
+ 		<message id="181" name="AEROB_SYSTEM_STATUS1">
+			<description>System component status</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint8_t" name="version_major">Component software major version</field>
+			<field type="uint8_t" name="version_minore">Component software minore version</field>
+			<field type="uint8_t" name="version_library">Component library version</field>
+			<field type="uint8_t" name="version_build">Component software build number</field>
+			<field type="uint8_t" name="airframe">System airframe type</field>
+			<field type="uint8_t[16]" name="number">Mav serial/board number (zerro ended)</field>
+		</message>
+
+		<message id="182" name="AEROB_VIDEO_HANDSHAKE">
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+            <field type="uint8_t" name="type">type of requested/acknowledged data (as defined in ENUM DATA_TYPES in mavlink/include/mavlink_types.h)</field>
+            <field type="uint32_t" name="size">total data size in bytes (set on ACK only)</field>
+            <field type="uint16_t" name="width">Width of a matrix or image</field>
+            <field type="uint16_t" name="height">Height of a matrix or image</field>
+            <field type="uint16_t" name="packets">number of packets beeing sent (set on ACK only)</field>
+            <field type="uint8_t" name="payload">payload size per packet (normally 245 byte, see DATA field size in message AEROB_VIDEO_DATA) (set on ACK only)</field>
+            <field type="uint8_t" name="jpg_quality">JPEG quality out of [1,100]</field>
+        </message>
+		
+        <message id="183" name="AEROB_VIDEO_DATA">
+ 			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint16_t" name="seqnr">sequence number (starting with 0 on every transmission)</field>
+			<field type="uint8_t[245]" name="data">image data bytes</field>
+        </message>
+
+		<message id="184" name="AEROB_AUX_SENSOR">
+			<description>Aerob auxiliary sensor packet (max 10 Hz rate)</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="float" name="value">Sensor value</field>			
+			<field type="uint32_t" name="counter">Sensor sample count</field>
+			<field type="uint32_t" name="sensor_id">Sensor type ID</field>
+		</message>
+		
+		<message id="185" name="AEROB_STABILIZE_DESIRED1">		  
+			<description>Desired stabilize parameters</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint8_t" name="stabilize_flag">Stabilize flags bitmask. ROLL = 1, PITCH = 2, YAW = 4, COURSE = 8, ALTITUDE	= 16, VSPEED 32, SPEED = 64, LEVEL = 128</field>
+			<field type="uint8_t" name="critical_flag">Critical flags bitmask. ROLL = 1, PITCH = 2, YAW = 4, COURSE = 8, ALTITUDE	= 16, VSPEED 32, SPEED = 64, LEVEL = 128</field>
+			<field type="float" name="des_roll">Desired Roll, degrees</field>
+			<field type="float" name="des_pitch">Desired Pitch, degrees</field>
+			<field type="float" name="des_yaw">Desired Pitch, degrees</field>
+			<field type="float" name="des_course">Desired Course, degrees</field>
+			<field type="float" name="des_altitude">Desired altitude, meters</field>
+			<field type="float" name="des_vpeed">Desired vertical speed, meters per seconds</field>
+			<field type="float" name="des_speed">Desired horizontal speed, meters per seconds</field>
+			<field type="float" name="des_rate_rool">Desired Roll Rate, degrees per seconds</field>
+			<field type="float" name="des_rate_pitch">Desired Pitch Rate, degrees per seconds</field>
+			<field type="float" name="des_rate_yaw">Desired Yaw Rate, degrees per seconds</field>
+		</message>
+		
+		<message id="186" name="AEROB_ANTENNA_TRACKER_STATUS">
+			<description>Antenna tracker status packet.</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="system_type">Type of system</field>
+			<field type="int16_t" name="azimuth">Antenna azimuth (0..359 degrees)</field>
+			<field type="uint16_t" name="battery_voltage">Battery voltage (millivolts)</field>
+			<field type="int16_t" name="main_system_id">Main tracking system ID</field>
+			<field type="uint8_t" name="rssi_900">Modem 900 Mhz RSSI</field>
+			<field type="uint8_t" name="rssi_24">Modem 2.4 Hhz RSSI</field>
+			<field type="int8_t" name="actuator_x">Actuator azimuth signal (-100..100)</field>
+			<field type="int8_t" name="actuator_y">Actuator elevation signal (-100..100)</field>
+			<field type="uint8_t" name="fault">Fault flags register</field>
+			<field type="uint8_t" name="valid">Valid flags register</field>
+		</message>
+
+		<message id="187" name="AEROB_ANTENNA_TRACKER_DATA">
+			<description>Antenna tracker data packet.</description>
+			<field type="float" name="latitude">Antenna latitude (degrees)</field>
+			<field type="float" name="longitude">Antenna longitude (degrees)</field>
+			<field type="float" name="latitude_err">Antenna latitude error (degrees)</field>
+			<field type="float" name="longitude_err">Antenna longitude error (degrees)</field>
+			<field type="float" name="altitude">Antenna altitude (GPS) (meters)</field>
+			<field type="float" name="pressure">Absolute pressure (millibar)</field>
+			<field type="float" name="temperature">Temperature (degrees Celsius)</field>
+			<field type="uint8_t" name="valid">Valid flags register</field>
+		</message>
+
+		<message id="188" name="AEROB_SHORT_MESSAGE">
+			<description>Aerob telemetry short message. To send over slow channels and satellite modem (payload = 64 byte)</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="float" name="roll">Roll angle (rad)</field>
+			<field type="float" name="pitch">Pitch angle (rad)</field>
+			<field type="float" name="yaw">Yaw angle (rad)</field>
+			<field type="float" name="latitude">Latitude (degrees)</field>
+			<field type="float" name="longitude">Longitude (degrees)</field>
+			<field type="uint16_t" name="track_angle">Course over ground (GPS) in degrees * 100, 0.0..359.99 degrees</field>
+			<field type="uint16_t" name="air_speed">Air speed, (cm/s)</field>
+			<field type="float" name="baro_altitude">Barometric altitude, (meters)</field>
+			<field type="int16_t" name="climb">Current climb rate (cm/s)</field>
+			<field type="uint16_t" name="ap_mode">Autopilot mode flag</field>
+			<field type="uint8_t" name="system_state">System state</field>
+			<field type="int16_t" name="mission_point">Current mission point</field>
+			<field type="uint16_t" name="battery_voltage">Battery voltage, in millivolts (1 = 1 millivolt)</field>
+			<field type="int8_t" name="fuel_level">Fuel level, in percent</field>
+			<field type="uint16_t" name="engine_rpm">Engine RMP</field>
+			<field type="int16_t" name="engine_exhaust_temp">Exhaust temperature (degrees Celsius)</field>
+			<field type="uint16_t" name="reserv">Reserve to future use</field>
+		</message>
+		
+		<message id="189" name="AEROB_PAYLOAD_2">
+			<description>Aerob payload type 2 telemetry packet</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint32_t" name="state">Payload status flag</field>
+			<field type="float" name="latitude">Latitude in degrees</field>
+			<field type="float" name="longitude">Longitude in degrees</field>
+			<field type="float" name="altitude">Altitude above ground in meters</field>
+			<field type="float" name="ground_speed">Ground speed in m/s</field>
+			<field type="float" name="course">Ground course in degrees</field>
+			<field type="float" name="track_angle">Track angle in degrees</field>
+		</message>
+
+		<message id="190" name="AEROB_GCS_ENVIRONMENT">
+			<description>Aerob ground control station environment</description>
+			<field type="uint16_t" name="gcs_id">GCS identifier</field>			   
+			<field type="uint64_t" name="gcs_time_ms">GCS time in millisecond since Unix epoch</field>
+			<field type="float" name="wind_speed">Wind speed near GCS in m/s</field>
+			<field type="float" name="wind_dir">Wind direction near GCS in degrees</field>
+			<field type="float" name="pressure">Absolute pressure in millibar</field>
+			<field type="float" name="temperature">Temperature in degrees Celsius</field>
+			<field type="float" name="lat">Latitude in degrees</field>
+			<field type="float" name="lat_err">Latitude error in degrees</field>
+			<field type="float" name="lon">Longitude in degrees</field>
+			<field type="float" name="lon_err">Longitude error in degrees</field>
+			<field type="float" name="altitude">Altitude in meters</field>
+			<field type="uint16_t" name="packet_rx">Packets received at last second by this channel</field>
+			<field type="uint16_t" name="packet_tx">Packets sent at last second by this channel</field>
+		</message>
+		
+		<message id="191" name="AEROB_PAYLOAD_STEERING">
+			<description>Data targeting.</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint32_t" name="state">Data status flag</field>
+			<field type="float" name="angle">Steering angle to target (degrees)</field>
+			<field type="float" name="altitude">Target altitude above ground (meters)</field>
+			<field type="float" name="distance">Distance to target (meters)</field>
+		</message>
+		
+		<message id="192" name="AEROB_PAYLOAD_STATUS_0">
+			<description>Data targeting.</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint16_t" name="up_state">UP status flags</field>
+			<field type="uint16_t" name="up_error">UP error flags</field>
+			<field type="uint8_t" name="up_temperature">UP temperature (degrees Celsius)</field>
+			<field type="uint8_t" name="up_voltage_0">UP voltage 0 (volts)</field>
+			<field type="uint8_t" name="up_voltage_1">UP voltage 1 (volts)</field>
+		</message>
+		
+		<message id="193" name="AEROB_PAYLOAD_STATUS_1">
+			<description>Data targeting.</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint16_t" name="kub_state">KUB status flags</field>
+			<field type="uint16_t" name="kub_error">KUB error flags</field>
+			<field type="uint8_t" name="kub_temperature">KUB temperature (degrees Celsius)</field>
+			<field type="uint16_t" name="arb_state">ARB status flags</field>
+			<field type="uint8_t" name="arb_temperature">ARB temperature (degrees Celsius)</field>
+			<field type="float" name="prf">Frequency (Hz)</field>
+			<field type="float" name="trash">Trash (meter)</field>
+			<field type="uint32_t" name="data_cntr">Data control</field>
+			<field type="float" name="signal_mid">Signal middle</field>
+			<field type="float" name="signal_max">Signal maximum</field>
+			<field type="float" name="signal_i_sko">Signal I sko</field>
+			<field type="float" name="signal_q_sko">Signal Q sko</field>
+			<field type="float" name="reserv0">Reserv</field>
+			<field type="float" name="reserv1">Reserv</field>
+			<field type="float" name="reserv2">Reserv</field>
+			<field type="float" name="reserv3">Reserv</field>
+		</message>
+
+		<message id="194" name="AEROB_ENGINE_STATUS">
+            <description>Engine parameters</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+            <field type="uint8_t" name="engine_number">Engine Number, start from 1</field>
+            <field type="uint16_t" name="rpm">Engine RMP, (for turbine 0..25000, 10*1/min)</field>
+            <field type="uint16_t" name="fuel_pressure">Fuel pressure (mbar)</field>
+            <field type="int16_t" name="exhaust_temp">Exhaust temperature, (-300..11000, 0.1 Degrees Celsius)</field>
+            <field type="uint16_t" name="fuel_flow">Current fuel flowrate (0..65535 ml/min)</field>
+			<field type="uint8_t" name="STS">Engine state</field>
+			<field type="uint8_t" name="LOC">Last off condition</field>
+		</message>
+		
+		<message id="195" name="AEROB_DEBUG">
+			<description>Debug data</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="float" name="param1">Reserv</field>
+			<field type="float" name="param2">Reserv</field>
+			<field type="float" name="param3">Reserv</field>
+			<field type="float" name="param4">Reserv</field>
+			<field type="float" name="param5">Reserv</field>
+			<field type="float" name="param6">Reserv</field>
+			<field type="float" name="param7">Reserv</field>
+			<field type="float" name="param8">Reserv</field>
+			<field type="float" name="param9">Reserv</field>
+			<field type="float" name="param10">Reserv</field>
+			<field type="float" name="param11">Reserv</field>
+			<field type="float" name="param12">Reserv</field>
+		</message>
+		
+		<message id="196" name="AEROB_SPECIAL_UAV1">
+			<description>Special telemetry packet (BSCAT project)</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="int16_t" name="roll">Roll, in degrees * 1E2</field>
+			<field type="int16_t" name="pitch">Pitch, in degrees * 1E2</field>
+			<field type="int16_t" name="yaw">Yaw, in degrees * 1E2</field>
+			<field type="uint16_t" name="air_speed">Air speed, (cm/s)</field>
+			<field type="int16_t" name="baro_altitude">Barometric altitude, (0.1 meters)</field>
+			<field type="int16_t" name="climb">Current climb rate (cm/s)</field>
+			<field type="int32_t" name="current_consumed">Consumed charge, in milliampere hours (1 = 1 mAh), -1: autopilot does not provide mAh consumption estimate</field>
+			<field type="uint16_t" name="current_battery">Battery current, in 10*milliamperes (1 = 10 milliampere), -1: autopilot does not measure the current</field>
+			<field type="uint16_t" name="battery_voltage">Battery voltage of cells, in millivolts (1 = 1 millivolt). Cells above the valid cell count for this battery should have the UINT16_MAX value.</field>
+			<field type="int32_t" name="latitude">Latitude (in degrees * 1E7)</field>
+			<field type="int32_t" name="longitude">Longitude (in degrees * 1E7)</field>
+			<field type="uint16_t" name="ground_speed">Speed over ground, (cm/s)</field>
+			<field type="uint16_t" name="track_angle">Course over ground (GPS) in degrees * 100, 0.0..359.99 degrees</field>
+			<field type="int16_t" name="roll_rate">Roll angular rate, degrees per sec * 1E2</field>
+			<field type="int16_t" name="pitch_rate">Pitch  angular rate, degrees per sec * 1E2</field>
+			<field type="uint8_t" name="gps_sats">Number of satellites visible. If unknown, set to 255</field>
+			<field type="uint8_t" name="board_rssi">RSSI on board side</field>
+			<field type="uint16_t" name="reserv1">Reserved param 1</field>
+			<field type="uint16_t" name="reserv2">Reserved param 2</field>
+		</message>
+
+		<!-- Free ID zone -->
+		<message id="199" name="AEROB_FUEL_INFO">
+            <description>Real fuel info from vehicle.</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+            <field type="uint8_t" name="tank1_level">Fuel level tank 1 (0..100%)</field>
+            <field type="uint8_t" name="tank2_level">Fuel level tank 2 (0..100%)</field>
+            <field type="uint8_t" name="tank3_level">Fuel level tank 3 (0..100%)</field>
+            <field type="uint8_t" name="tank4_level">Fuel level tank 4 (0..100%)</field>
+            <field type="uint8_t" name="flags">Flag register</field>
+		</message>
+		
+		<message id="200" name="AEROB_WEATHER_INFO">
+            <description>Weather info estimate from vehicle.</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+            <field type="uint8_t" name="wind_dir">Wind direction (0..72, in 5 Degrees)</field>
+            <field type="uint16_t" name="wind_speed">Wind speed (0..10000, cm/sec)</field>
+            <field type="int16_t" name="wind_alt">Wind altitude (-300..10000, meter)</field>			
+            <field type="uint16_t" name="pressure">Air pressure (mbar)</field>
+            <field type="int16_t" name="temp">Air temperature, (-300..1000, 0.1 Degrees Celsius)</field>
+            <field type="uint8_t" name="state">Status flag</field>
+		</message>
+
+		<message id="201" name="AEROB_SYSTEM_STATUS2">
+			<description>System component status. Interval 0.1 Hz</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="uint8_t" name="version_major">Component software major version</field>
+			<field type="uint8_t" name="version_minore">Component software minore version</field>
+			<field type="uint8_t" name="version_library">Component library version</field>
+			<field type="uint8_t" name="version_build">Component software build number</field>
+			<field type="uint8_t" name="airframe">System airframe type</field>
+			<field type="uint8_t[16]" name="number">Mav serial/board number (zerro ended)</field>
+			<field type="uint32_t" name="mission_hash">Mission plan HASH</field>
+			<field type="uint32_t" name="config_hash">Config file HASH</field>			
+		</message>
+
+		<message id="202" name="AEROB_ENGINE_STATUS2">
+            <description>Engine parameters</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+            <field type="uint8_t" name="engine_number">Engine Number, start from 1</field>
+            <field type="uint16_t" name="rpm">Engine RMP, (for turbine 0..25000, 10*1/min)</field>
+            <field type="uint16_t" name="fuel_pressure">Fuel pressure (mbar)</field>
+            <field type="int16_t" name="exhaust_temp">Exhaust temperature, (-300..11000, 0.1 Degrees Celsius)</field>
+            <field type="uint16_t" name="fuel_flow">Current fuel flowrate (0..65535 ml/min)</field>
+			<field type="uint16_t" name="bat_voltage">Battery voltage in 1mV</field>
+			<field type="uint16_t" name="bat_current">Battery current in 1mA</field>
+			<field type="uint8_t" name="STS">Engine state</field>
+			<field type="uint8_t" name="LOC">Last off condition</field>
+		</message>
+
+		<message id="203" name="AEROB_FAST_SENSOR2">
+			<description>Aerob sensor telemetry packet (hight speed)</description>
+			<field type="uint32_t" name="time_boot_ms">Milliseconds since system boot</field>
+			<field type="uint32_t" name="flight_id">Flight identifier (flight number)</field>
+			<field type="int16_t" name="xacc">X acceleration (-15000..+15000, cm/s2)</field>
+			<field type="int16_t" name="yacc">Y acceleration (-15000..+15000, cm/s2)</field>
+			<field type="int16_t" name="zacc">Z acceleration (-15000..+15000, cm/s2)</field>
+			<field type="int16_t" name="xgyro">Angular speed around X axis (-20000..20000 millirad/sec)</field>
+			<field type="int16_t" name="ygyro">Angular speed around Y axis (-20000..20000 millirad/sec)</field>
+			<field type="int16_t" name="zgyro">Angular speed around Z axis (-20000..20000 millirad/sec)</field>
+			<field type="int16_t" name="xmag">X Magnetic field (-20000..20000 milli tesla)</field>
+			<field type="int16_t" name="ymag">Y Magnetic field (-20000..20000 milli tesla)</field>
+			<field type="int16_t" name="zmag">Z Magnetic field (-20000..20000 milli tesla)</field>
+		</message>
+
+		<!-- AEROB MESSAGE EXTENTION END (v44) -->
+    </messages>
+</mavlink>
