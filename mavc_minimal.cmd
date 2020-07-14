@@ -1,0 +1,1 @@
+python ./pymavlink/tools/mavgen.py --lang C --wire-protocol 1.0 -o c_min message_definitions/v1.0/minimal.xml

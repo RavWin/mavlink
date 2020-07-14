@@ -1,0 +1,1 @@
+python ./pymavlink/tools/mavgen.py --lang Delphi --wire-protocol 1.0 -o delphi_Rdevel message_definitions/v1.0/Rdevel.xml

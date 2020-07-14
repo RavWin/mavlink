@@ -548,7 +548,7 @@
 			<field type="uint8_t" name="target_component">Component ID</field>
 			<field type="uint16_t" name="command">Command ID, as defined by MAV_CMD enum.</field>
 			<field type="uint32_t" name="command_uid">Unique command id</field>
-			<field type="uint8_t" name="result">See MAV_RESULT enum</field>
+			<field type="uint8_t" name="cmdResult">See MAV_RESULT enum</field>
 		</message>
 		
 		<message id="169" name="AEROB_TERMINAL">
