@@ -7,20 +7,25 @@
   <enums/>
   <!-- use common.xml messages -->
   <messages>
+    <message id="160" name="ECUU_CMD">
+        <description>ECUU Command</description>
+        <field type="uint8_t" name="cmd">Command</field>
+        <field type="uint8_t" name="engineID">Engine ID</field>
+        <field type="uint8_t" name="param">Command param</field>
+    </message>
     <message id="180" name="ECUU_ENGINE_STATE">
         <description>ECUU Engines state</description>
-        <field type="uint16_t" name="rpm">RPM</field>
-        <field type="uint16_t" name="egt">Exhaust gas temperature</field>
+        <field type="uint8_t" name="engineID">engine ID</field>
+        <field type="uint16_t" name="rpm">RPM 10*1/min</field>
+        <field type="int16_t" name="egt">Exhaust gas temperature 0.1 °C</field>
         <field type="uint16_t" name="fuelFlow">Fuel flow (ml/min)</field>
         <field type="uint16_t" name="setThrottle">Throttle setpoint (in 0.1%)</field>
-        <field type="uint8_t"  name="batVoltage">Battery voltage</field>
-        <field type="uint8_t"  name="batCurrent">Battery current</field>
+        <field type="uint8_t"  name="state">Engine state</field>
     </message>
-    <message id="30000" name="ECUU_ENGINE_STATE2">
+    <message id="181" name="ECUU_ENGINE_VOLT_AMP">
         <description>ECUU Extended state</description>
-        <field type="uint8_t" name="target_system">System ID</field>
-        <field type="uint8_t" name="target_component">Component ID</field>
-        <field type="uint8_t[64]" name="data">Payload</field>
+        <field type="uint8_t[16]" name="batVoltage">Battery voltage</field>
+        <field type="uint8_t[16]" name="batCurrent">Battery current</field>
     </message>
   </messages>
 </mavlink>

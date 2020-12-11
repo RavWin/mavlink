@@ -1,0 +1,2 @@
+python ./pymavlink/tools/mavgen.py --lang C --wire-protocol 1.0 -o c_common message_definitions/v1.0/common.xml
+python ./pymavlink/tools/mavgen.py --lang Delphi --wire-protocol 1.0 -o d_common message_definitions/v1.0/common.xml

@@ -1,0 +1,2 @@
+python ./pymavlink/tools/mavgen.py --lang C --wire-protocol 1.0 -o c_aerob message_definitions/v1.0/aerob.xml
+python ./pymavlink/tools/mavgen.py --lang Delphi --wire-protocol 1.0 -o d_aerob message_definitions/v1.0/aerob.xml

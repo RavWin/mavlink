@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<mavlink>
+  <!-- MAVLink standard messages -->
+  <!-- <include>minimal.xml</include> -->
+  <dialect>0</dialect>
+  <!-- use common.xml enums -->
+  <enums>
+    <enum name="MAV_STATE">
+      <entry value="0" name="MAV_STATE_UNINIT">
+        <description>Uninitialized system, state is unknown.</description>
+      </entry>
+      <entry name="MAV_STATE_BOOT">
+        <description>System is booting up.</description>
+      </entry>
+      <entry name="MAV_STATE_CALIBRATING">
+        <description>System is calibrating and not flight-ready.</description>
+      </entry>
+      <entry name="MAV_STATE_STANDBY">
+        <description>System is grounded and on standby. It can be launched any time.</description>
+      </entry>
+      <entry name="MAV_STATE_ACTIVE">
+        <description>System is active and might be already airborne. Motors are engaged.</description>
+      </entry>
+      <entry name="MAV_STATE_CRITICAL">
+        <description>System is in a non-normal flight mode. It can however still navigate.</description>
+      </entry>
+      <entry name="MAV_STATE_EMERGENCY">
+        <description>System is in a non-normal flight mode. It lost control over parts or over the whole airframe. It is in mayday and going down.</description>
+      </entry>
+      <entry name="MAV_STATE_POWEROFF">
+        <description>System just initialized its power-down sequence, will shut down now.</description>
+      </entry>
+    </enum>
+	<enum name="MAVLINK_LIBRARY_VERSION_ENUM">
+		<entry name="MAVLINK_LIBRARY_VERSION" value="44">
+		<description>Mavlink library version</description> 
+		</entry>
+	</enum>
+  </enums>
+ <!-- use common.xml messages -->
+  <messages>
+    <message id="0" name="ECUU_HEARTBEAT">
+      <description>The heartbeat message shows that a system is present and responding. The type of the MAV and Autopilot hardware allow the receiving system to treat further messages from this system appropriate (e.g. by laying out the user interface based on the autopilot).</description>
+      <field type="uint8_t" name="engineCount">Engines count</field>
+      <field type="uint8_t[3]" name="dut">Fuel levels</field>
+      <field type="uint8_t" name="mavlink_version">MAVLink version</field>
+      <field type="uint32_t" name="ecuu_version">ECUU version</field>
+    </message>
+    <message id="160" name="ECUU_CMD">
+        <description>ECUU Command</description>
+        <field type="uint8_t" name="cmd">Command</field>
+        <field type="uint8_t" name="engineID">Engine ID</field>
+        <field type="uint16_t" name="param">Command param</field>
+    </message>
+    <message id="180" name="ECUU_ENGINE_STATE">
+        <description>ECUU Engines state</description>
+        <field type="uint8_t" name="engineID">engine ID</field>
+        <field type="uint16_t" name="rpm">RPM 10*1/min</field>
+        <field type="int16_t" name="egt">Exhaust gas temperature 0.1 °C</field>
+        <field type="uint16_t" name="fuelFlow">Fuel flow (ml/min)</field>
+        <field type="uint16_t" name="setThrottle">Throttle setpoint (in 0.1%)</field>
+        <field type="uint8_t"  name="state">Engine state</field>
+        <field type="uint8_t"  name="ctrlState">Control state</field>
+    </message>
+    <message id="181" name="ECUU_ENGINE_VOLT_AMP">
+        <description>ECUU Extended state</description>
+        <field type="uint8_t[16]" name="batVoltage">Battery voltage</field>
+        <field type="uint8_t[16]" name="batCurrent">Battery current</field>
+    </message>
+    <message id="182" name="ECUU_STATUS">
+        <description>ECUU Comm Status</description>
+        <field type="uint32_t" name="canFcMsgSent">CAN FC: Messages Sent</field>
+        <field type="uint32_t" name="canFcMsgReceived">CAN FC: Messages Received</field>
+        <field type="uint16_t" name="reynoldsMsgPerSec">RS485 Reynolds: received messages per second</field>
+        <field type="uint16_t" name="jcsPktPerSec">JetCat Serial: received packets per second</field>
+    </message>
+  </messages>
+</mavlink>
