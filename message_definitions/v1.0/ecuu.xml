@@ -74,5 +74,10 @@
         <field type="uint16_t" name="reynoldsMsgPerSec">RS485 Reynolds: received messages per second</field>
         <field type="uint16_t" name="jcsPktPerSec">JetCat Serial: received packets per second</field>
     </message>
+    <message id="183" name="ECUU_CONSOLE">
+        <description>ECUU Extended state</description>
+        <field type="uint8_t" name="len">Text length</field>
+        <field type="uint8_t[16]" name="text">Console text</field>
+    </message>
   </messages>
 </mavlink>
