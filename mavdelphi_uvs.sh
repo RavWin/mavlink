@@ -1,1 +1,0 @@
-python ./pymavlink/tools/mavgen.py --lang Delphi --wire-protocol 1.0 -o delphiuvs_lib message_definitions/v1.0/uvsuav.xml

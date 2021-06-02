@@ -27,6 +27,5 @@ include/
 .tags*
 *.pyc
 include/mavlink/v1.0
-/delphi_lib
-/delphi
-/c_lib
+c_*
+d_*
